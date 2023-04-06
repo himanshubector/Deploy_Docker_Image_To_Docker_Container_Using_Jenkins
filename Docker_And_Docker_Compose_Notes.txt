@@ -1,0 +1,1624 @@
+
+
+Docker is an open platform for developing, shipping and running applications
+
+
+
+Docker is a platform which packages an application and all its dependencies together in the form of containers
+
+
+In the dev environment, we will package our application along with the dependencies in the form of docker container
+And then we will run this container on other env such as testing env, staging and prod env.
+
+
+We can’t ship the Docker containers directly. We have to make an Docker image of them and then ship our application.
+
+
+Docker is a virtualisation concept
+
+
+
+
+Example->
+
+Hardware
+
+
+Host Operating system - Windows/ Linux / MacOS/ Ubuntu
+
+
+
+Installing Virtual Machine / another OS on the Host Operating system - Like this we can have multiple OS installed
+
+This will work but this will consume lot of memory.
+
+It will divide the RAM and SSD and then use it. Will turn out to be costly as well.
+
+
+Here now, Docker will help in running multiple softwares and thus also helps in packaging our application.
+
+
+After installing Docker, we’ll have the Docker Engine
+
+
+Docker Engine has the apis which client calls to do all the work.
+
+
+It manages/maintains our Docker containers.
+
+
+Whatever memory needs to be provided to containers, will be taken care by the Docker Engine.
+
+
+
+Containers - they will have the application and the related dependencies.
+
+Eg - Java application and Java8 specific dependencies.
+
+
+Container 2 - Java application and Java11 dependencies.
+
+
+
+Docker is a containerization technology with the help of which we can create multiple containers and in each container, we can package diff. applications and dependencies.
+
+
+
+DockerFile, DockerImage, DockerContainer
+
+
+DockerFile -> It is a text document which contains all the commands that a user can call on the command line to assemble an image.
+
+
+For eg - defining current working directory, which files to copy, defining parent image, which command to run, etc
+
+These commands will get executed and will help us in assembling the image.
+
+
+
+Docker Image ->  It is a template to create Docker Container
+
+
+We will define in the template(docker image) that which softwares we have to run in the container and as soon as we run the docker image, our container will be ready.
+
+We will define in the docker image what all things are required, and then when we run this docker image, it will get translated into the docker container.
+
+
+
+
+Create Docker file
+
+Build the Docker file to create a Docker Image
+
+Then, Run the Docker Image to create Docker Container
+
+
+
+Docker Container -> It is running instance of the docker image. They hold entire package to run the application.
+
+Eg - Class and its multiple objects. So class refers to Docker image and object is referred to Container here.
+
+
+
+
+Docker File ———(build)———> Docker Image ———(run)———-> Docker Container
+
+
+
+Docker Hub -> Docker’s official repository for images.  hub.docker.com
+
+This has official Docker images for everyday applications. We can use/include these images to build our application.
+For eg - If I need Node.js with my application, No need to setup the node version manager and all that stuff in my container. I can simply pull the official image from Docker Hub and configure it.
+
+
+
+We can pull already existing Docker images from the Docker Hub and directly use them or we can create our own custom Docker image.
+
+
+Docker Desktop is a suite of software applications that enable you to build and share containerized applications and microservices on Windows and Mac.
+
+
+Docker Desktop includes:
+
+
+Docker daemon - docker engine
+
+Docker client - command line client
+
+Docker compose - build and run multi-container apps
+
+Docker content trust - digitally sign and verify Docker images
+
+Kubernetes - container orchestration system
+
+Credential Helper - safely store Docker credentials in native stores
+
+
+
+Download DMG installer -
+
+https://docs.docker.com/desktop/install/mac-install/
+
+
+
+
+
+Docker is just a software for managing containers.
+
+
+Docker image is just a blueprint for how you build out an application and then you run that blueprint to build the container.
+
+
+A Container packages up code and its dependencies so the application runs quickly and reliably from one computing environment to another.
+
+  Container is shared with the help of images only.
+
+
+We have open community where people have created the packages and shared the corr. images on Docker Hub. We can pull these images and then run them.
+
+
+
+
+Commands ——>>
+
+
+docker
+
+
+docker version or docker -v
+
+
+docker run hello-world
+
+
+docker images
+
+
+docker --version
+
+
+//pull image
+docker pull <image_name>
+
+
+docker pull openjdk
+
+
+docker pull openjdk:18    —> 18 is called as the tag i.e the version number (18 is the tag specifying the openjdk version you want)
+
+
+docker search mysql
+
+
+
+// Command to run/start the docker image
+
+docker run python
+
+
+
+// To list all containers which have exited
+
+docker ps -a
+
+
+
+// To list all containers which are running currently
+
+docker ps
+
+
+
+// To provide env variables
+
+docker run -e
+
+
+
+// For detached
+
+docker run -d
+
+
+
+// start/run a container by giving a name to it and start it in detached mode and giving id of the image
+
+docker run --name pythonContainer -d <image_id>
+Note: Container will exit as soon as it starts when you run this command
+
+
+
+// start container in interactive mode and detached mode (detached mode means here that pythonConatiner1 will run in the background)
+
+docker run --name pythonContainer1 -it -d python
+Note: Container will not exit but instead run properly upon executing this command
+
+
+
+// command to go inside the container and run the python commands there
+
+docker exec -it <container_id> python3(this is name of the python command which we want to execute)
+
+
+Note: This will run python in a system(docker container) separate from the host operating system
+
+
+
+
+// To inspect the container
+
+docker inspect <container_id>
+
+
+
+// Command to run openjdk image
+
+docker run --name javaContainer -it -d openjdk
+
+
+
+
+// Command to go inside the javaContainer
+
+docker exec -it javaContainer jshell
+
+
+
+// Command to pull Mysql image from Docker Hub
+
+docker pull mysql
+
+
+
+
+// Command to run the Mysql docker image
+
+docker run --name mysqlDb -e MYSQL_ROOT_PASSWORD=root -d mysql
+
+
+
+Note: docker exec command allows you to run commands inside a Docker container
+
+
+
+// To inspect the container
+
+docker inspect mysqlDb
+
+
+
+
+// Command to go inside the mysql container ‘mysqlDb’
+
+docker exec -it mysqlDb bash
+
+
+Then, execute the command ->  mysql -p
+
+And enter the password as ‘root’
+
+
+
+
+// Command to pull nginx server image from Docker Hub
+
+docker pull nginx
+
+
+
+// Command to run nginx image
+
+docker run --name nginxServer -d -p 8080:80 nginx
+
+
+
+
+// Command to pull Apache HTTP server image from Docker Hub
+
+docker pull httpd
+
+
+
+
+// Command to run the Apache HTTP server image
+
+docker run --name httpdServer -d -p 8081:80 httpd
+
+
+
+
+// Command to stop the running container
+
+docker stop <container_name / container_id>
+
+OR
+
+docker stop <by giving only starting digits of the container_id say 79d>
+
+Container id is 79d456ghk58939
+
+
+
+
+// Command to show all the containers which you ran previously and then stopped them
+
+docker ps -a
+
+
+
+
+// Command to remove the docker containers listed in command docker ps -a
+
+docker rm <container_id>
+
+
+
+// We can remove multiple containers at once as well from the docker containers listed in command docker ps -a
+
+docker rm <container_id1> <container_id2> <container_id3> <container_id4>
+
+
+
+
+// Command to remove docker images from ‘docker images’ command list
+
+docker rmi <image_name>
+
+
+
+
+
+// Command to run the pythonContainer directly in interactive mode and not in the background(i.e. detached mode)
+
+docker run --name pythonContainer1 -it python
+
+
+
+// Command to restart the docker container
+
+docker restart pythonContainer1 (this command can be used to restart the stop container as well)
+
+
+
+
+// Command to login into Docker Hub so that we can push our own custom docker images into the Docker Hub
+
+docker login
+
+
+
+
+// Command to create or save an image of the edited container on the local system
+
+docker commit
+
+
+
+
+// Command to push or upload the docker image on the repository / Docker Hub
+
+docker push
+
+
+
+
+// Command to copy files from docker to the local system
+
+docker copy
+
+
+
+// Command to check logs
+
+docker logs <container_name>
+
+
+
+
+// Command to create a volume so that docker container can use it to store the data
+
+docker volume
+
+
+
+
+// Command to logout from Docker Hub
+
+docker logout
+
+
+
+
+// To create custom docker image with the help of docker file
+
+To set the path for the code command in macOS so that it opens Visual Studio Code, you can follow these steps:
+1. Open Visual Studio Code.
+2. Open the Command Palette by pressing Cmd + Shift + P (or Ctrl + Shift + P on Windows/Linux).
+3. Type "shell command" in the Command Palette and select the option "Shell Command: Install 'code' command in PATH".
+4. After the installation process is complete, close and reopen the terminal.
+5. Now you can use the code command in the terminal to open Visual Studio Code in the current directory. For example, to open the current directory in Visual Studio Code, type code . in the terminal.
+
+
+Create new folder with name ‘docker’
+
+Create sub folder with name as ‘ubuntu-image’
+
+Navigate to this path ->  /Users/himanshubector/Downloads/docker/ubuntu-image
+
+
+Execute ->  code . (This will open Visual studio code)
+
+
+Create file ‘Dockerfile’ in Visual studio code and paste the below content ->
+
+# base image
+FROM ubuntu
+
+# author name
+MAINTAINER himanshu
+
+# update command
+RUN apt update
+
+# start up executable command
+CMD ["echo", "this is my first ubuntu image"]
+
+
+
+
+From this path /Users/himanshubector/Downloads/docker/ubuntu-image, execute ->
+
+docker build -t myubuntuimage .
+
+(Command to build the docker image)
+
+. -> this means it will pick up the docker file from the current directory and start working on it
+
+
+
+docker run --name myUbuntuContainer myubuntuimage
+
+(We can use this command with -it and -d as well)
+
+
+
+
+
+// Running custom Java application using Docker Container
+
+
+Create new folder with name ‘docker’
+
+Create sub folder with name as ‘java-project’
+
+Navigate to this path ->  /Users/himanshubector/Downloads/docker/java-project
+
+
+Create file ‘Dockerfile’ in Visual studio code and paste the below content ->
+
+FROM openjdk:11
+
+WORKDIR /usr/src/myapp
+
+COPY . /user/src/myapp/
+
+RUN javac Test.java
+
+CMD ["java","Test"]
+
+
+
+Create new class Test.java
+
+class Test
+{
+    public static void printSystemProperties()
+    {
+        System.out.println("Printing system properties using java");
+
+        Properties props = System.getProperties();
+        System.out.println(props);
+    }
+
+
+    public static void main(String[] args)
+    {
+        System.out.println("Java Program started.....");
+        printSystemProperties();
+    }
+}
+
+
+
+To build the image, From this path /Users/himanshubector/Downloads/docker/java-project, execute ->
+
+docker build -t myjavaimage .
+
+
+
+To run this image,
+
+docker run --name javaProject myjavaimage
+
+
+
+
+
+
+// Run Python Application using Docker Container
+
+
+docker build -t pythonproject .
+
+
+/Users/himanshubector/Downloads/docker/python-project
+
+
+docker run --name pythonProject pythonproject
+
+
+
+Dockerfile content ->
+
+FROM python
+WORKDIR /usr/src/myapp
+COPY . /usr/src/myapp/
+CMD ["python3", "main.py"]
+
+
+
+main.py file content ->
+
+print("this is my python project")
+
+def myFun(m1,m2):
+    print("sum is", (m1+m2))
+
+
+import datetime
+print(datetime.date())
+
+myFun(12,213)
+print("Bye Bye python")
+
+
+
+
+
+
+// Run SpringBoot application using Docker Container
+
+
+1. Create springintilaizr project
+2. Import in IntelliJ
+3. Create TestController.java and application.yml file
+4. Package the application into a jar file by clicking on Maven -> <project_name> -> Lifecycle -> package and then run Maven build to generate the jar file
+5. This jar will be created under path in the hard disk at <project_name> -> target -> DockerTest-0.0.1-SNAPSHOT.jar
+
+Command to execute the jar file generated to test it
+
+java -jar DockerTest-0.0.1-SNAPSHOT.jar
+
+
+
+6. TestController.java content ->
+
+@RestController
+public class TestController
+{
+    @RequestMapping("/")
+    public Map<String,Object> getValues()
+    {
+        Map<String,Object> data = new HashMap<>();
+
+        data.put("message", "Java api is working fine");
+        data.put("languages", Arrays.asList("Java", "Python", "Javascript"));
+        data.put("code", 2345);
+
+        return data;
+
+    }
+}
+
+
+
+7. Now, copy the generated jar file in Visual Studio code i.e. at path /Users/himanshubector/Downloads/docker/springboot-project
+
+
+8. Now, create a new Dockerfile with content ->
+
+FROM openjdk
+WORKDIR /usr/src/myapp
+COPY . /usr/src/myapp/
+CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar"]
+EXPOSE 9598
+
+
+
+9. Build the image
+
+docker build -t springbootimage .
+
+
+
+10. Run the image
+
+docker run --name springBootContainer1 -it -p 9598:9598 -d springbootimage
+
+
+
+
+Note:
+
+Basic steps in a Dockerfile —>>
+
+
+FROM <base_image>
+
+RUN mkdir /app/src
+
+WORKDIR /app/src
+
+COPY . /app/src/
+
+RUN npm install
+
+EXPOSE <port_no.>
+
+CMD [“npm”, ”start”]
+
+
+
+
+
+// Docker Compose with commands and example
+
+Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
+
+
+Docker Compose is used for running multiple services / multi container applications. It is easier to start multiple services / multiple applications using docker compose yaml file, rather than by using docker and starting each services separately.
+
+
+In Docker compose, we create a yaml file and in that yaml file, we provide the configuration for all our services, how they connect to each other, what are the diff. ports available, what are the diff. dependencies available.
+And based on that yaml, with a single command, we can start all the services.
+
+
+￼
+
+
+Path ——
+
+/Users/himanshubector/Downloads/docker/docker-compose/springboot
+
+Under this path, we have CustomerService-0.0.1-SNAPSHOT.jar & Dockerfile
+
+
+
+
+Dockerfile content ——
+
+FROM openjdk
+WORKDIR /usr/src/bootapp
+COPY . /usr/src/bootapp/
+CMD ["java","-jar","CustomerService-0.0.1-SNAPSHOT.jar"]
+
+
+
+
+docker-compose.yml content ———
+
+version: '3'
+
+services:
+
+  dbservice:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=jaiganeshji
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - springbootapp
+
+
+
+  appservice:
+    build: ./springboot
+    depends_on:
+      - dbservice
+    environment:
+      - spring.datasource.url=jdbc:mysql://dbservice:3306/customer_app?createDatabaseIfNotExist=true
+      - spring.datasource.username=root
+      - spring.datasource.password=jaiganeshji
+    ports:
+      - 9292:9599 #9292 port no. refers to the host machine port through which we can access application in browser, 9599 port no. refers to the port on which application is running inside the docker conatiner
+    networks:
+      - springbootapp
+
+
+networks:
+  springbootapp:
+
+
+
+
+Command to run at path ——
+
+/Users/himanshubector/Downloads/docker/docker-compose
+
+Execute ->  docker-compose up
+
+
+
+
+
+
+// Docker Compose another example
+
+
+docker-compose.yml file —>>
+
+version: '3'
+
+services:
+
+  user:
+    container_name: user_service
+    build:
+      context: ./user-service    # context means the directory to find the docker file
+      args:
+        JDK_VERSION: 11
+      dockerfile: Dockerfile
+    image: dailycodebuffer/user  # to define custom image name
+    ports:
+      - 8081:8081
+
+
+  department:
+    container_name: department_service
+    build:
+      context: ./department-service
+      dockerfile: Dockerfile
+    image: dailycodebuffer/department
+    ports:
+      - 8083:8082
+    links:
+      - "user:user_service"
+
+
+
+
+Dockerfile for department-service
+
+FROM openjdk:11
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} department-service.jar
+ENTRYPOINT ["java","-jar","/department-service.jar"]
+
+
+
+
+Dockerfile for user-service
+
+ARG JDK_VERSION
+FROM openjdk:${JDK_VERSION}
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} user-service.jar
+ENTRYPOINT ["java","-jar","/user-service.jar"]
+
+
+
+
+
+
+Docker Compose Commands (Important and most used docker commands) ——>>
+
+
+docker-compose --help / OR docker-compose help
+
+
+docker-compose config (to see the configuration we provided in docker-compose.yml file)
+
+
+
+Command to build the docker compose yml file (i.e. to build the images or services)
+
+docker-compose build
+
+
+
+Command to start the services
+
+docker-compose up -d (it will start all the services defined in docker-compose.yml file)
+
+
+
+Command to check the running services
+
+docker-compose ps /  docker-compose top
+
+
+
+Command to list the images
+
+docker-compose images
+
+
+
+Command to combine docker-compose up and docker-compose build (after making any changes in docker-compose.yml file)
+
+docker-compose up -d --build
+
+
+
+
+Command to stop the services defined in docker-compose.yml file / OR a particular service defined in docker-compose.yml file
+
+docker-compose stop / OR docker-compose stop <service_name>
+
+
+
+
+Command to start the services defined in docker-compose.yml file
+
+docker-compose start
+
+
+
+
+
+Command to restart the services defined in docker-compose.yml file
+
+docker-compose restart
+
+
+
+
+
+Command to kill the services defined in docker-compose.yml file
+
+docker-compose kill
+
+
+
+
+Command to check logs of the running services defined in docker-compose.yml file
+
+docker-compose logs
+
+
+
+
+
+Command to check logs of a particular service defined in docker-compose.yml file
+
+docker-compose logs user
+
+
+
+
+To execute any command on any of the particular container, there is ‘exec’ command
+
+docker-compose exec user bash
+
+## This will open the bash terminal of the user container
+
+Command to find the services running over here ->  ps -ef | grep java
+
+
+
+
+
+Variables in Docker Compose file
+
+
+Dockerfile for user-service
+
+ARG JDK_VERSION
+FROM openjdk:${JDK_VERSION}
+
+
+&
+
+docker-compose.yml file —>>
+
+version: '3'
+
+services:
+
+  user:
+    container_name: user_service
+    build:
+      context: ./user-service    # context means the directory to find the docker file
+      args:
+        JDK_VERSION: 11
+      dockerfile: Dockerfile
+    image: dailycodebuffer/user  # to define custom image name
+    ports:
+      - 8081:8081
+
+
+Here, we are passing the JDK information from the build information over here in docker compose file and that information we are using in our Dockerfile.
+
+This way we can pass environment variables, diff. configuration variables also. Therefore, this way we can build the dynamic docker compose file.
+
+
+
+
+
+Command to bring down all the services and remove all the containers and images from it
+
+docker-compose down
+
+
+
+
+
+Docker Compose file is the desired state of our services. Whatever is defined in docker compose file, that should be the exact state of all our services.
+
+If we make any changes in any of the services, then docker engine will check with the state available and will do the changes only applicable. That is, it will only change the modified services.
+
+Lets say we change the host port mapping for department-service in docker-compose.yml file, then we will execute the command ->
+
+docker-compose up -d
+
+Here upon executing this command, it will recreate the department service.
+
+
+
+
+
+
+Push our docker compose configuration to cloud environment and we want to spin up another instance —>>
+
+Docker compose is only used in a single server or a single host machine. We can not run on the different host machines. I.e. all the containers will be in the single host machine.
+
+
+
+If we want multiple containers in a diff. host machine, then there is a docker swarm for it.
+
+This is the disadvantage of using docker compose. But if we still want to use it, then what we will do is that we will push all our changes to the docker hub and then we will use docker compose pull command to pull the services.
+
+
+We have repositories in docker hub.
+
+
+To use this docker-compose push command, we have to log in into docker hub from the terminal using docker login command.
+
+
+ docker-compose push
+
+// This will push all the custom images available which you have build from your system to docker hub
+
+
+
+Docker hub provides a docker playground. This provides the Docker sandbox environment.
+
+
+https://labs.play-with-docker.com/
+
+
+
+Docker Hub credentials————————————————————
+
+Username - himsb
+
+Email - bectorhimanshu@gmail.com
+
+Pwd - Infy@2014
+
+
+
+We will use docker playground here as a simulator for the project specific cloud env. Or on-premise env. While working in a project.
+
+docker playground will give the environment to run docker commands.
+
+
+In docker playground, drag and drop the docker-compose.yml file
+
+Do ‘ls’ to see if docker-compose.yml file is available.
+
+
+Now, we want to run this docker-compose.yml file over here but we don’t have our project information available here.
+
+So, it has to use the images available in the docker hub.
+
+
+Run the command ->  docker-compose pull
+
+This will throw the error since we have provided context information in our docker-compose.yml file and this context is not available in the docker playground.
+
+So, to fix it, run the commands ->
+
+
+mkdir user-service
+
+mkdir department-service
+
+
+And now run the docker-compose pull
+
+This will successfully pull the images from the docker hub.
+
+Check the pulled images using command -> docker images
+
+
+
+Now, run the command ->  docker-compose up -d
+
+This will bring all the services up.
+
+Now, these services are ready to be used at the open ports mentioned.
+
+
+
+
+
+
+
+How to work with multiple docker compose files in a production grid environment?
+
+
+docker-compose.yml file - this will be the base file for all the configurations.
+
+
+
+
+docker-compose.override.yml
+
+version: '3'
+services:
+  department:
+    container_name: department_service_new
+    image: dailycodebuffer/department_new
+    ports:
+      - 8084:8082
+
+
+First of all, it will configure according to the configurations defined in docker-compose.yml file and it will also override the configuration settings defined in the docker-compose.override.yml file.
+
+After creating this docker-compose.override.yml file, run the command ->  docker-compose up -d
+
+So, what can happen is that it might override/add the changes defined in docker-compose.override.yml file.
+
+
+
+Generally, docker-compose.yml file is for our production environment and docker-compose.override.yml file is for our local environment.
+
+
+
+docker-compose.prod - production env.
+
+
+docker-compose.stage - staging env.
+
+
+docker-compose.dev - dev env.
+
+
+
+Command to give the file name for running the docker compose in this above kind of configuration where we have diff. docker compose files for diff. env. ->
+
+
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml up -d
+
+
+
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
+
+
+We can define and configure the ‘volumes’, ’networks’, ‘secrets’ using docker compose related commands.
+
+With docker compose, we can build the entire full stack application and with one command, we can start up the entire application and we don’t have to worry about the different configurations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Push custom docker image into Docker Hub
+
+
+
+
+// Create Docker Image without Dockerfile in Spring Boot
+
+
+
+
+// Building image using native cloud build pack
+
+
+
+
+// Build & Push Docker Image using Jenkins Pipeline
+
+Build Docker Image using Jenkins Pipeline and Push Docker Image to Docker Hub using Jenkins Pipeline.
+
+
+
+
+
+
+
+
+// Containerize / Dockerize SpringBoot Microservices involving MySQLDb based application using DockerCompose
+
+
+Deploying Spring Boot + MYSQL to Docker
+
+
+We are going to create two docker containers which should communicate with each other, we will need to start them on same network.
+
+
+Dockerize Spring Boot Application with MySQL using Docker compose
+
+
+Deploying Spring Boot + MYSQL to Docker without using Docker Compose
+
+
+
+docker network create customer-mysql
+
+
+
+docker network ls
+
+
+
+docker run --name mysqldb --network customer-mysql -e MYSQL_ROOT_PASSWORD=jaiganeshji -e MYSQL_DATABASE=myspringbootdb -d mysql:8
+
+
+
+docker container logs -f <container_id>
+
+
+
+docker container exec -it fc(container_id) bash
+
+
+
+mysql -u root -p
+
+
+
+
+Next we will modify the application.yml in the Spring Boot application to make use of the mysql container name i.e.mysqldb instead of localhost
+
+
+spring.datasource.url=jdbc:mysql://mysqldb/himanshubecidb
+
+
+
+
+
+Build the docker image for the spring boot project
+
+docker build -t customerserviceimage .
+
+
+
+
+Next run this as a container. Also we are running the container on the employee-mysql network.
+
+
+docker run --network customer-mysql --name customer-service-container -p 9980:9980 -d customerserviceimage
+
+
+
+docker container logs -f <container_id>
+
+
+
+
+
+docker inspect <container_name> to know the host name of the container
+
+
+Alternatively, you can use the docker-compose ps command to get the container names and their IP addresses or hostnames.
+
+
+
+
+Try connecting to the MySQL server using the command-line client: Run ->  docker exec -it mysqlserver_service mysql -uroot -pjaiganeshji command to connect to the MySQL server using the command-line client. If this works, then it confirms that the MySQL server is running and you have the correct username and password.
+
+
+
+
+docker port <container_name>
+
+
+docker network create <network_name>
+
+
+docker compose down
+
+
+docker compose up -d
+
+
+
+docker exec -it <container_name> mysql -u root -p jaiganeshji
+
+For eg.  ->  docker exec -it customer_service_container mysql -u root -p jaiganeshji
+
+To go inside the command-line terminal of the mysql docker container that is running
+
+
+Best Solution ->
+
+https://itecnote.com/tecnote/mysql-springboot-on-docker-unable-to-connect-to-mysql/
+
+
+
+
+
+
+Steps to fix the mysql communication error issue ==>>
+
+
+Docker compose down
+
+
+
+Start mysql server in host system
+
+
+
+Rebuild the jar using maven package
+
+
+
+Stop mysql server in host system
+
+
+
+Docker compose up -d
+
+
+
+Docker ps -a
+
+
+
+If the spring boot app exits after few seconds, then make changes in application.yml -> datasource -> url -> in this url, change hostname to docker-compose.yml file’s mysql service name which is ‘mysqlserver’ here
+
+
+
+Then, run again Docker compose up -d
+
+
+
+Docker ps -a
+
+=====================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===========================================================================================================
+
+Push and Pull Docker image to Docker Hub using command
+
+
+
+
+Pushing Docker Image to Docker Repository from Jenkins
+
+
+
+
+
+
+
+***************** Build & Push Docker Image using Jenkins Pipeline | Devops Integration (Build Docker Image using Jenkins Pipeline and Push Docker Image to Docker Hub using Jenkins Pipeline)********************
+
+
+The exact plugin name for "Build Whenever a SNAPSHOT Dependency is Built" in Jenkins is "Build Trigger for Maven Dependency Update Plugin".
+
+
+
+Install Docker Pipeline plugin in Jenkins
+
+
+Install Docker plugin in Jenkins
+
+
+Install Maven Dependency Update Trigger Plugin in Jenkins
+
+
+
+
+
+brew update
+
+
+brew install jenkins-lts
+
+
+brew reinstall jenkins-lts - if required
+
+
+
+Error/Issue ->
+
+getting this below error :
+
+Bootstrap failed: 5: Input/output error
+Try re-running the command as root for richer errors.
+Error: Failure while executing; `/bin/launchctl bootstrap gui/501 /Users/himanshubector/Library/LaunchAgents/homebrew.mxcl.jenkins-lts.plist` exited with 5.
+
+
+
+Answer:
+
+sudo brew services start jenkins-lts
+
+
+This will start the Jenkins service and it will be available at http://localhost:8080/ in your web browser.
+
+
+
+
+
+
+Error / Issue when you hit http://localhost:8080/ in your web browser ->
+
+To ensure Jenkins is securely set up by the administrator, a password has been written to the log (not sure where to find it?) and this file on the server:
+
+/var/root/.jenkins/secrets/initialAdminPassword
+
+
+
+Answer:
+
+Run this command ->  sudo cat /var/root/.jenkins/secrets/initialAdminPassword
+
+
+￼
+
+
+https://phoenixnap.com/kb/install-jenkins-on-mac
+
+How to Install Jenkins on Mac
+
+
+
+
+
+
+Steps for committing the code from IntelliJ to Github new repository ->
+
+
+
+git init
+
+
+git add .
+
+
+ git commit -m 'first commit'
+
+
+git status
+
+
+git branch -M main
+
+
+git remote add origin https://github.com/himanshubector/docker-jenkins-devops-automation.git
+
+
+git push -u origin main
+
+
+
+
+
+To sync GitHub with Jenkins, we need to create a pipeline under new item.
+
+
+Jenkins credentials -
+
+Username - admin
+
+Pwd -  f0a0f2acbf9449849437d6a0683bf096
+
+
+
+
+
+
+brew services start jenkins-lts
+
+
+brew services stop jenkins-lts
+
+
+cat  /var/root/.jenkins/secrets/initialAdminPassword
+
+
+
+Username - hims
+
+Pwd - Infy@2014
+
+Admin user in Jenkins login credentials
+
+
+
+For Fixing docker command not found issue ->
+
+<key>EnvironmentVariables</key>
+	<dict>
+	<key>PATH</key>
+	<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Docker.app/Contents/Resources/bin/:/Users/himanshubector/Library/Group\ Containers/group.com.docker/Applications/Docker.app/Contents/Resources/bin</string>
+	</dict>
+
+
+
+
+File ->
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>homebrew.mxcl.jenkins-lts</string>
+	<key>LimitLoadToSessionType</key>
+	<array>
+		<string>Aqua</string>
+		<string>Background</string>
+		<string>LoginWindow</string>
+		<string>StandardIO</string>
+		<string>System</string>
+	</array>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/homebrew/opt/openjdk@17/bin/java</string>
+		<string>-Dmail.smtp.starttls.enable=true</string>
+		<string>-jar</string>
+		<string>/opt/homebrew/opt/jenkins-lts/libexec/jenkins.war</string>
+		<string>--httpListenAddress=127.0.0.1</string>
+		<string>--httpPort=8080</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>EnvironmentVariables</key>
+	<dict>
+	<key>PATH</key>
+	<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Docker.app/Contents/Resources/bin/:/Users/himanshubector/Library/Group\ Containers/group.com.docker/Applications/Docker.app/Contents/Resources/bin</string>
+	</dict>
+
+</dict>
+</plist>
+
+
+
+
+For Fixing docker command not found issue, this url was referred ->
+
+https://harshityadav95.medium.com/how-to-setup-docker-in-jenkins-on-mac-c45fe02f91c5
+
+
+
+https://stackoverflow.com/questions/40043004/docker-command-not-found-mac-mini-only-happens-in-jenkins-shell-step-but-wo/58688536#58688536
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Build Docker Image using Jenkins Pipeline and Push Docker Image to Docker Hub and next deploy it to Kubernetes cluster step by step using Jenkins Pipeline
+
+
+
+
+
+
+https://www.javainuse.com/devOps/docker/docker-mysql
+
+
+https://www.youtube.com/watch?v=8s7m9DHkzQY
+
+
+https://www.youtube.com/watch?v=ZZ2Llh4NhaY
+
+
+https://www.youtube.com/watch?v=ThAkKPAwdpQ
+
+
+https://jhooq.com/spring-boot-with-docker/
+
+
+https://www.youtube.com/watch?v=6hMHziv0T2Y
+
+
+https://www.youtube.com/watch?v=RVIbMuNs1aw
+
+
+https://www.youtube.com/watch?v=FW8jr205Ap8
+
+
+https://www.youtube.com/watch?v=5_EXMJbhLY4
+
+
+https://www.youtube.com/watch?v=QkHEGVBZ88A
+
+
+https://www.youtube.com/watch?v=DRYYb3JeYNk&list=PLGkw5PiN7Vh8c6w3SLZ3M5QNXNYqqaEs0&index=150
+
+
+
+
+
+
+Installing Telnet in Mac using Home Brew —>>
+
+
+brew install telnet
+
+
+3. After the installation is complete, you can then use the telnet command to check if port 3306 is being listened on your Mac:
+yaml
+
+Copy code
+telnet localhost 3306
+
+
+
+3. If port 3306 is being listened on your Mac, you will see a message similar to the following:
+sql
+
+Copy code
+Trying ::1... Connected to localhost. Escape character is '^]'.
+
+
+
+4. If port 3306 is not being listened on your Mac, you will see a message similar to the following:
+vbnet
+
+Copy code
+Trying ::1... telnet: connect to address ::1: Connection refused Trying 127.0.0.1... telnet: connect to address 127.0.0.1: Connection refused telnet: Unable to connect to remote host
+
+Note: If you get a "Connection refused" message, it means that the port is not being listened on your Mac. If you get a "Connected" message, it means that the port is being listened on your Mac.
+
+
+
+
+
